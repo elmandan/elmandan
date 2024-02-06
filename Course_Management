@@ -1,0 +1,93 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class Schedule_DD {
+
+    @Test (dataProvider = "new_time")
+
+    public void schedule(String time) {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("http://www.ezhrs.com/ezCourses/admin/admin.asp?action=admin");
+
+        driver.findElement(By.name("uname")).sendKeys("Admin");
+
+        driver.findElement(By.name("password")).sendKeys("pass");
+
+        driver.findElement(By.name("SUBMIT")).click();
+
+        driver.findElement(By.linkText("Schedule Courses")).click();
+
+        driver.findElement(By.xpath("/html/body/table[2]/tbody[1]/tr/td/div/p/table/tbody/tr/td/table/tbody/tr/td/div/table[2]/tbody/tr[5]/td[5]/div/a/img")).click();
+
+
+        //ddm for instructor
+
+        Select instructor = new Select(driver.findElement(By.name("instructor")));
+        instructor.selectByIndex(2);
+
+        //ddm for location
+
+        Select location = new Select(driver.findElement(By.name("ClassID")));
+        location.selectByIndex(2);
+
+        //ddm for office
+
+        Select office = new Select(driver.findElement(By.name("OfficeID")));
+        office.selectByIndex(2);
+
+        //select field
+
+        driver.findElement(By.name("firstinput")).sendKeys(time);
+
+        //ddm for start time
+
+        Select start = new Select(driver.findElement(By.name("mTime")));
+        start.selectByIndex(2);
+
+        //ddm for duration
+
+        Select duration = new Select(driver.findElement(By.name("duration")));
+        duration.selectByIndex(2);
+
+        //ddm for course capacity
+
+        Select capacity = new Select(driver.findElement(By.name("Limit")));
+        capacity.selectByIndex(2);
+
+        //submit
+
+        driver.findElement(By.xpath("/html/body/table[2]/tbody[1]/tr/td/div/form/center/table/tbody/tr/td/table/tbody/tr/td/div/table[2]/tbody[1]/tr/td/table/tbody/tr[10]/td/div/table/tbody/tr/td[2]/input[1]")).click();
+
+        driver.close();
+        }
+
+        //testing for changing date
+
+
+        @DataProvider (name = "new_time")
+
+        public Object [] time(){
+
+            Object [] time = new Object[4];
+
+            time[0]="2024/03/02";
+            time[1]="2024/03/12";
+            time[2]="2024/03/22";
+            time[3]="2024/03/24";
+
+            return time;
+
+
+
+
+
+        }
+}
