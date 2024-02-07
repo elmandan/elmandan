@@ -1,0 +1,62 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+
+public class Navigation {
+
+    @Test
+
+    public void test1(){
+
+        WebDriverManager.chromedriver().setup();
+        //get latest version of chrome from bonni garcia dependency
+
+        WebDriver driver=new ChromeDriver();
+
+        driver.get("https://www.google.com/");
+
+        driver.navigate().to("https://www.instagram.com/");
+
+        driver.navigate().back();
+
+        driver.navigate().forward();
+
+        driver.navigate().refresh();
+
+        driver.manage().window().maximize();
+
+        driver.manage().window().fullscreen();
+
+        System.out.println(driver.getCurrentUrl());
+
+        System.out.println(driver.getTitle());
+
+        /////how to close application
+
+        driver.close();
+        //closes current tab
+
+        driver.quit();
+        //closes browser
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+}
