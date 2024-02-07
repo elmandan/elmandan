@@ -1,0 +1,117 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.Test;
+
+public class POS_VerifyCalc {
+
+    @Test
+
+    public void test7(){
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("http://www.ezhrs.com/project1/potdb/login.asp");
+
+        driver.findElement(By.name("username")).sendKeys("admin.admin");
+
+        driver.findElement(By.name("password")).sendKeys("welcome");
+
+        driver.findElement(By.name("SUBMIT")).click();
+
+        //verify  first line total calc
+
+        driver.findElement(By.linkText("TORcat2014-469")).click();
+
+        String q= driver.findElement(By.name("edt_Quantity1")).getAttribute("value");
+
+        System.out.println(q);
+
+        String p= driver.findElement(By.name("edt_UPrice1")).getAttribute("value");
+
+        System.out.println(p);
+
+        WebElement total=driver.findElement(By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody[1]/tr[2]/td/div/table[3]/tbody/tr/td/form/table/tbody[1]/tr/td/table/tbody/tr[4]/td/table/tbody/tr[3]/td/table/tbody/tr[6]/td[7]/div/b/font"));
+
+        String total1= total.getText();
+
+        System.out.println(total1);
+
+        //extracted total
+
+        String total2= total1.substring(3);
+
+        System.out.println(total2);
+
+        //switch data type to int in order to verify w calculation
+
+        int total3=Integer.parseInt(total2);
+
+        int qq=Integer.parseInt(q);
+
+        int pp=Integer.parseInt(p);
+
+        int calc= qq*pp;
+
+        System.out.println(calc);
+
+        //comparing int to int - using == in if statement
+
+      if(total3==calc){
+
+           System.out.println("test case passed");
+       }else{
+
+          System.out.println("test case failed");
+      }
+
+
+      //add second total to verify bottom total calc is correct as sum of all line totals
+
+        WebElement secondtotal= driver.findElement(By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody[1]/tr[2]/td/div/table[3]/tbody/tr/td/form/table/tbody[1]/tr/td/table/tbody/tr[4]/td/table/tbody/tr[3]/td/table/tbody/tr[7]/td[7]/div/b/font"));
+
+      String secondtotal1=secondtotal.getText();
+
+      System.out.println(secondtotal1);
+
+      WebElement sumtotal= driver.findElement(By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody[1]/tr[2]/td/div/table[3]/tbody/tr/td/form/table/tbody[1]/tr/td/table/tbody/tr[4]/td/table/tbody/tr[3]/td/table/tbody/tr[11]/td[7]/b/font"));
+
+      String sumtotal1=sumtotal.getText();
+
+      System.out.println(sumtotal1);
+
+      String sum1=secondtotal1.substring(3);
+
+      System.out.println(sum1);
+
+      String sum2=sumtotal1.substring(3);
+
+      System.out.println(sum2);
+
+      int total01=Integer.parseInt(sum1);
+
+      int total02=Integer.parseInt(sum2);
+
+      int calc2= total01+total3;
+
+      System.out.println(calc2);
+
+      if(calc2==total02){
+
+          System.out.println("test case passed");
+      }else{
+
+          System.out.println("test case failed");
+      }
+
+      driver.close();
+
+
+
+
+    }
+}
