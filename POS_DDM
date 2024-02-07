@@ -1,0 +1,120 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.Test;
+
+public class POS_ddmLoop {
+
+    @Test
+
+    public void test6(){
+
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("http://www.ezhrs.com/project1/potdb/login.asp");
+
+        driver.findElement(By.name("username")).sendKeys("admin.admin");
+
+        driver.findElement(By.name("password")).sendKeys("welcome");
+
+        driver.findElement(By.name("SUBMIT")).click();
+
+        //create new PO button
+
+        driver.findElement(By.linkText("Create PO")).click();
+
+        ///////////////fill in new PO form
+
+        //ddm for 'PO Np.'
+
+        Select PO=new Select(driver.findElement(By.name("POopco")));
+
+        for(WebElement options:PO.getOptions()){
+
+            System.out.println(options.getText());
+        }
+
+        System.out.println(PO.getOptions().size());
+
+        //text for 'Purchased For'
+
+        driver.findElement(By.name("Orderedby")).sendKeys("kitchen");
+
+        //ddm for OpCo
+
+        Select OPCO = new Select(driver.findElement(By.name("OpCo")));
+
+        for(WebElement options1:OPCO.getOptions()){
+
+            System.out.println(options1.getText());
+        }
+
+        System.out.println(OPCO.getOptions().size());
+
+        //text for Reason for Purchase
+
+        driver.findElement(By.name("up_reason")).sendKeys("new supplies");
+
+        //input for Anticipated Date of Purchase
+
+        driver.findElement(By.name("firstinput")).sendKeys("2023/04/20");
+
+        //ddm for supplier
+
+        Select supplier = new Select(driver.findElement(By.name("Supplier")));
+
+        for(WebElement options2:supplier.getOptions()){
+
+            System.out.println(options2.getText());
+        }
+
+        System.out.println(supplier.getOptions().size());
+
+        //ddm for shipping address
+
+        Select shipping = new Select(driver.findElement(By.name("shipping")));
+
+        for(WebElement options3:PO.getOptions()){
+
+            System.out.println(options3.getText());
+        }
+
+        System.out.println(shipping.getOptions().size());
+
+        //ddm for billing address
+
+        Select billing = new Select(driver.findElement(By.name("billing")));
+
+        for(WebElement options4:PO.getOptions()){
+
+            System.out.println(options4.getText());
+        }
+
+        System.out.println(billing.getOptions().size());
+
+        //items
+
+        driver.findElement(By.name("Item1")).sendKeys("cup");
+        driver.findElement(By.name("PartNo1")).sendKeys("cp1");
+        driver.findElement(By.name("ModelNo1")).sendKeys("1");
+        driver.findElement(By.name("Quantity1")).sendKeys("5");
+        driver.findElement(By.name("Uprice1")).sendKeys("3");
+
+        //add notes
+
+        driver.findElement(By.name("Description")).sendKeys("new order");
+
+        driver.findElement(By.name("submit")).click();
+
+        driver.close();
+
+
+
+
+    }
+}
